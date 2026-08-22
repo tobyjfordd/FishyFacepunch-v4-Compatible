@@ -1,12 +1,11 @@
 #if !FishyFacepunch
-using FishNet.Managing.Logging;
+using FishNet.Managing;
 using FishNet.Transporting;
 using Steamworks;
 using Steamworks.Data;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using FishNet.Managing;
 using UnityEngine;
 
 namespace FishyFacepunch.Client
@@ -49,7 +48,7 @@ namespace FishyFacepunch.Client
         internal override void Initialize(Transport t)
         {
             base.Initialize(t);
-        }       
+        }
 
         /// <summary>
         /// Starts the client connection.
@@ -69,7 +68,7 @@ namespace FishyFacepunch.Client
             try
             {
                 if (SteamClient.IsValid)
-                {                    
+                {
                     connectedComplete = new TaskCompletionSource<Task>();
                     if (!IsValidAddress(address))
                     {
@@ -88,11 +87,11 @@ namespace FishyFacepunch.Client
                     {
                         if (cancelToken.IsCancellationRequested)
                         {
-                            Transport.NetworkManager.LogError($"The connection attempt was cancelled.");
+                            base.Transport.NetworkManager.LogError($"The connection attempt was cancelled.");
                         }
                         else if (timeOutTask.IsCompleted)
                         {
-                            Transport.NetworkManager.LogError($"Connection to {address} timed out.");
+                            base.Transport.NetworkManager.LogError($"Connection to {address} timed out.");
                             StopConnection();
                         }
                         SetLocalConnectionState(LocalConnectionState.Stopped, false);
@@ -100,19 +99,19 @@ namespace FishyFacepunch.Client
                 }
                 else
                 {
-                    Transport.NetworkManager.LogError("SteamWorks not initialized");
+                    base.Transport.NetworkManager.LogError("SteamWorks not initialized");
                     SetLocalConnectionState(LocalConnectionState.Stopped, false);
                 }
             }
             catch (FormatException)
             {
-                Transport.NetworkManager.LogError($"Connection string was not in the right format. Did you enter a SteamId?");
+                base.Transport.NetworkManager.LogError($"Connection string was not in the right format. Did you enter a SteamId?");
                 SetLocalConnectionState(LocalConnectionState.Stopped, false);
                 _Error = true;
             }
             catch (Exception ex)
             {
-                Transport.NetworkManager.LogError(ex.Message);
+                base.Transport.NetworkManager.LogError(ex.Message);
                 SetLocalConnectionState(LocalConnectionState.Stopped, false);
                 _Error = true;
             }
@@ -120,7 +119,7 @@ namespace FishyFacepunch.Client
             {
                 if (_Error)
                 {
-                    Transport.NetworkManager.LogError("Connection failed.");
+                    base.Transport.NetworkManager.LogError("Connection failed.");
                     SetLocalConnectionState(LocalConnectionState.Stopped, false);
                 }
             }
@@ -138,12 +137,12 @@ namespace FishyFacepunch.Client
             }
             else if (info.State == ConnectionState.ClosedByPeer || info.State == ConnectionState.ProblemDetectedLocally)
             {
-                Transport.NetworkManager.Log($"Connection was closed by peer, {info.EndReason}");
+                base.Transport.NetworkManager.Log($"Connection was closed by peer, {info.EndReason}");
                 StopConnection();
             }
             else
             {
-                Transport.NetworkManager.Log($"Connection state changed: {info.State.ToString()} - {info.EndReason}");
+                base.Transport.NetworkManager.Log($"Connection state changed: {info.State.ToString()} - {info.EndReason}");
             }
         }
 
@@ -164,7 +163,7 @@ namespace FishyFacepunch.Client
 
             if (HostConnectionManager != null)
             {
-                Transport.NetworkManager.Log("Sending Disconnect message");
+                base.Transport.NetworkManager.Log("Sending Disconnect message");
                 HostConnection.Close(false, 0, "Graceful disconnect");
                 HostConnectionManager = null;
             }
@@ -204,12 +203,12 @@ namespace FishyFacepunch.Client
             Result res = base.Send(HostConnection, segment, channelId);
             if (res == Result.NoConnection || res == Result.InvalidParam)
             {
-                Transport.NetworkManager.Log($"Connection to server was lost.");
+                base.Transport.NetworkManager.Log($"Connection to server was lost.");
                 StopConnection();
             }
             else if (res != Result.OK)
             {
-                Transport.NetworkManager.LogError($"Could not send: {res.ToString()}");
+                base.Transport.NetworkManager.LogError($"Could not send: {res.ToString()}");
             }
         }
 
