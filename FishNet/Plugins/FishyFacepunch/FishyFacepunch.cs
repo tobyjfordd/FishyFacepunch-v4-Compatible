@@ -9,11 +9,6 @@ namespace FishyFacepunch
 {
     public class FishyFacepunch : Transport
     {
-        ~FishyFacepunch()
-        {
-            Shutdown();
-        }
-
         #region Public.
         [System.NonSerialized]
         public ulong LocalUserSteamID;
@@ -95,11 +90,8 @@ namespace FishyFacepunch
             CreateChannelData();
 
 #if !UNITY_SERVER
-            if (!SteamClient.IsValid) //Steam might have already been initialized by something else
-            {
+            if (!SteamClient.IsValid)
                 SteamClient.Init(_steamAppID, true);
-            }
-
             SteamNetworking.AllowP2PPacketRelay(true);
 #endif
             _clientHost.Initialize(this);
@@ -140,7 +132,7 @@ namespace FishyFacepunch
             SteamNetworkingUtils.InitRelayNetworkAccess();
             LocalUserSteamID = Steamworks.SteamClient.SteamId.Value;
 #endif
-        }
+        } 
         #endregion
 
         #region ConnectionStates.
