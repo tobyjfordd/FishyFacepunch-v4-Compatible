@@ -1,4 +1,4 @@
-#This is a fork of FishyFacepunch which has been adapted to work with FishNet-v4.
+# This is a fork of FishyFacepunch which has been adapted to work with FishNet-v4.
 The original repo (at the time of writing) only works with FishNet v3 or older.
 
 I am on a team of 2 people developing a steam game, and I created this fork so we could use FishyFacepunch with the new FishNet v4 API.
