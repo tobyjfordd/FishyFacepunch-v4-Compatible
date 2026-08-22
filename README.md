@@ -1,3 +1,12 @@
+#This is a fork of FishyFacepunch which has been adapted to work with FishNet-v4.
+The original repo (at the time of writing) only works with FishNet v3 or older.
+
+I am on a team of 2 people developing a steam game, and I created this fork so we could use FishyFacepunch with the new FishNet v4 API.
+Although more edits will be needed for our game, I'll keep this original fork here *unchanged* for anyone to use freely. (same license as the original repo at the time of forking).
+
+The changes made were purely to make the transport compatible with FishNet v4 and shouldn't change functionality, except for one:
+The transport used to initialise SteamClient itself unconditionally, even if your game already initialised it itself. The transport now checks if steam is already initialised before trying to initialise steam itself, to avoid errors. No other functionality changes have been made.
+
 # FishyFacepunch
 
 A Facepunch implementation for Fish-Net.
