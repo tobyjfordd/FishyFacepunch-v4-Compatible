@@ -1,4 +1,4 @@
-﻿#if !FishyFacepunch
+#if !FishyFacepunch
 using FishNet.Transporting;
 using FishyFacepunch.Server;
 using System;
