@@ -1,5 +1,5 @@
 #if !FishyFacepunch
-using FishNet.Managing.Logging;
+using FishNet.Managing;
 using FishNet.Transporting;
 using Steamworks;
 using Steamworks.Data;
@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Runtime.InteropServices;
-using FishNet.Managing;
 using UnityEngine;
 
 namespace FishyFacepunch
